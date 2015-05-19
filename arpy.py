@@ -33,7 +33,6 @@ options.add_option('-i', '--interface', type='string', dest='interface', help='I
 options.add_option('--sniff', action="store_true", dest="sniff_pkts", help='Sniff all passing data')
 options.add_option('--sniff-dns', action="store_true", dest="dns_sniff", help='Sniff only searched domains')
 options.add_option('--sniff-dns-gource', action="store_true", dest="dns_sniff_gource", help='Output target\'s DNS searches in gource format')
-options.add_option('-v', action='store_true', dest='verbose', help='Verbose, show all information')
 opts, args = options.parse_args()
 
 target = opts.target
