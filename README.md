@@ -139,7 +139,7 @@ WARNING: No route found for IPv6 destination :: (no default route?)
 
 tail -f parsed_domain_gource | tee /dev/stderr | gource -log-format custom -a 1 --file-idle-time 0 -
 ```
-Sample Gource footage:
+### Sample Gource footage
 ![alt text][gourve_live_footage]
 
 [gourve_live_footage]: https://github.com/ivanvza/arpy/blob/master/images/arpy_gource.gif "Live Gource Footage"
