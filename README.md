@@ -146,3 +146,7 @@ Sample Gource footage:
 
 ### Contact
 @viljoenivan
+
+### To-do
+* Look at adding sslstrip.
+* Filter sniff to a certain domain/IP.
