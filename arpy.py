@@ -38,7 +38,6 @@ opts, args = options.parse_args()
 target = opts.target
 gateway = opts.gateway
 interface = opts.interface
-verbose = opts.verbose
 dns_sniff = opts.dns_sniff
 dns_sniff_gource = opts.dns_sniff_gource
 sniff_pkts = opts.sniff_pkts
