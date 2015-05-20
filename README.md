@@ -58,7 +58,7 @@ Options:
 ## Packet Sniff
 This is the packet sniffer, it allows you to see your target's traffic.
 ```
-ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.161.1.1 -i en0 --sniff
+ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff
     _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
@@ -106,7 +106,7 @@ Alternate-Protocol: 80:quic,p=0
 ## DNS Sniff
 This function allows you to see domain names that your target is currently requesting.
 ```
-ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.161.1.1 -i en0 --sniff-dns
+ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff-dns
     _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
@@ -133,7 +133,7 @@ Target: 192.168.1.4 -> (192.168.1.1/DNS server) has searched for: safebrowsing-c
 ## DNS Sniff With Gource
 This function is more or less the same as the above, however it provides the functionality to pass it through Gource to get a live feed of what your target is viewing.
 ```
-ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.161.1.1 -i en0 --sniff-dns-gource
+ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff-dns-gource
 WARNING: No route found for IPv6 destination :: (no default route?)
 [INFO] For a live gource feed run this command in parallel with this one:
 
