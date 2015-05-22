@@ -150,3 +150,4 @@ tail -f parsed_domain_gource | tee /dev/stderr | gource -log-format custom -a 1 
 ### To-do
 * Look at adding sslstrip.
 * Filter sniff to a certain domain/IP.
+* Port it too kali.
