@@ -25,7 +25,7 @@ brew install gource
 ```
 #### Scapy
 ```
-brew install scapy
+pip install scapy
 ```
 
 ## Sample Commands
