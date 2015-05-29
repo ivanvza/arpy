@@ -30,13 +30,13 @@ pip install scapy
 
 ## Sample Commands
 ```
-ivanvza:~/ > arpy
-    _____
+ivanvza:~/ > sudo arpy
+     _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
     |__|__|_| |  _|_  |
     MiTM Tool |_| |___|
-         - @viljoenivan
+    v3.15 -@viljoenivan
 
 Usage: arpy -t <Target IP> -g <Gateway IP> -i <Interface>
 
@@ -50,64 +50,93 @@ Options:
                         The Gateway
   -i INTERFACE, --interface=INTERFACE
                         Interface to use
+  --tcp                 Filters out only tcp traffic
+  --udp                 Filters out only udp traffic
+  -d D_PORT, --destination_port=D_PORT
+                        Filter for a destination port
+  -s S_PORT, --source_port=S_PORT
+                        Filter for a source port
   --sniff               Sniff all passing data
   --sniff-dns           Sniff only searched domains
   --sniff-dns-gource    Output target's DNS searches in gource format
+  -v                    Verbose scapy packet print
 ```
 
 ## Packet Sniff
 This is the packet sniffer, it allows you to see your target's traffic.
 ```
-ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff
-    _____
+ivanvza:~/ > sudo arpy -t 192.168.1.3 -g 192.161.1.1 -i en0 --sniff
+     _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
     |__|__|_| |  _|_  |
     MiTM Tool |_| |___|
-         - @viljoenivan
+    v3.15 -@viljoenivan
 
 
   [Info] Starting Sniffer...
 
 [Info] Enabling IP Forwarding...
-[Info] Done...
+[Info] Filter: ((src host 192.168.1.3 or dst host 192.168.1.3))
 
-[Info] Found the following (IP layer): 192.168.1.4 -> 216.58.223.10
-GET /ajax/libs/jquery/1.7.1/jquery.min.js HTTP/1.1
-Host: ajax.googleapis.com
-Connection: keep-alive
+[Info] Found the following (IP layer): 192.168.1.3 -> 46.101.34.90
+GET / HTTP/1.1
+User-Agent: curl/7.37.1
+Host: ivanvza.ninja
 Accept: */*
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36
-X-Client-Data: CKW1yQEIjrbJAQimtskBCKm2yQEIxLbJAQjriMoBCLWJygEIs5TKAQ==
-Referer: http://stackoverflow.com/
-Accept-Encoding: gzip, deflate, sdch
-Accept-Language: en-US,en;q=0.8,af;q=0.6
 
-[Info] Found the following (IP layer): 216.58.223.10 -> 192.168.1.4
+
+
+[Info] Found the following (IP layer): 46.101.34.90 -> 192.168.1.3
 HTTP/1.1 200 OK
 Vary: Accept-Encoding
-Content-Encoding: gzip
-Content-Type: text/javascript; charset=UTF-8
-Last-Modified: Mon, 02 Apr 2012 18:24:28 GMT
-Date: Mon, 18 May 2015 17:26:10 GMT
-Expires: Tue, 17 May 2016 17:26:10 GMT
-Access-Control-Allow-Origin: *
-Timing-Allow-Origin: *
-X-Content-Type-Options: nosniff
-Server: sffe
-Content-Length: 33186
-X-XSS-Protection: 1; mode=block
-Cache-Control: public, max-age=31536000
-Age: 79137
-Alternate-Protocol: 80:quic,p=0
+Content-Type: text/html
+Accept-Ranges: bytes
+ETag: "2719538271"
+Last-Modified: Thu, 30 Apr 2015 08:25:15 GMT
+Content-Length: 3213
+Date: Fri, 29 May 2015 20:15:06 GMT
+Server: Microsoft IIS
 
-�Ľ�~�F�.�?��ʫ�!J�ҷ
+<html>
+     <title>><></title>
+    <body>
+        <pre style="line-height: 1.25; white-space: pre;">
+        \          SORRY            /
+         \                         /
+          \    This page does     /
+           ]   not exist yet.    [    ,'|
+           ]                     [   /  |
+           ]___               ___[ ,'   |
+           ]  ]\             /[  [ |:   |
+           ]  ] \           / [  [ |:   |
+           ]  ]  ]         [  [  [ |:   |
+           ]  ]  ]__     __[  [  [ |:   |
+           ]  ]  ] ]\ _ /[ [  [  [ |:   |
+           ]  ]  ] ] (#) [ [  [  [ :===='
+           ]  ]  ]_].nHn.[_[  [  [
+           ]  ]  ]  HHHHH. [  [  [
+           ]  ] /   `HH("N  \ [  [
+           ]__]/     HHH  "  \[__[
+           ]         NNN         [
+           ]         N/"         [
+           ]         N H         [
+          /          N            \
+         /           q,            \
+        /                           \
+        </pre>
+        <h3 id="list"><h3>
+    </body>
+<script>
+
+// NOTE: window.RTCPeerConnection is "not a constructor" in FF22/23
+var RTCPeerConnection = /*window.RTCPeerConnection ||
 ```
 ## DNS Sniff
 This function allows you to see domain names that your target is currently requesting.
 ```
 ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff-dns
-    _____
+     _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
     |__|__|_| |  _|_  |
@@ -133,11 +162,12 @@ Target: 192.168.1.4 -> (192.168.1.1/DNS server) has searched for: safebrowsing-c
 ## DNS Sniff With Gource
 This function is more or less the same as the above, however it provides the functionality to pass it through Gource to get a live feed of what your target is viewing.
 ```
-ivanvza:~/ > sudo arpy -t 192.168.1.4 -g 192.168.1.1 -i en0 --sniff-dns-gource
-WARNING: No route found for IPv6 destination :: (no default route?)
+ivanvza:~/ > sudo arpy -t 192.168.1.3 -g 192.161.1.1 -i en0 --sniff-dns-gource
 [INFO] For a live gource feed run this command in parallel with this one:
 
-tail -f parsed_domain_gource | tee /dev/stderr | gource -log-format custom -a 1 --file-idle-time 0 -
+tail -f /tmp/36847parsed_nmap | tee /dev/stderr | gource -log-format custom -a 1 --file-idle-time 0 -
+
+[Info] Filter: ((src host 192.168.1.3 or dst host 192.168.1.3) and dst port 53)
 ```
 ### Sample Gource footage
 ![alt text][gourve_live_footage]
@@ -149,5 +179,4 @@ tail -f parsed_domain_gource | tee /dev/stderr | gource -log-format custom -a 1 
 
 ### To-do
 * Look at adding sslstrip.
-* Filter sniff to a certain domain/IP.
 * Port it too kali.
