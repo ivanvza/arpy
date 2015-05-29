@@ -30,7 +30,7 @@ pip install scapy
 
 ## Sample Commands
 ```
-ivanvza:~/ > arpy
+ivanvza:~/ > sudo arpy
      _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
@@ -65,7 +65,7 @@ Options:
 ## Packet Sniff
 This is the packet sniffer, it allows you to see your target's traffic.
 ```
-ivanvza:~/ > arpy -t 192.168.1.3 -g 192.161.1.1 -i en0 --sniff
+ivanvza:~/ > sudo arpy -t 192.168.1.3 -g 192.161.1.1 -i en0 --sniff
      _____
     |  _  |___ ___ _ _
     |     |  _| . | | |
