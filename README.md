@@ -17,6 +17,7 @@ It provides 3 targeted functions:
 * Python 2.7
 * Gource
 * Scapy
+* libdnet
 
 ## Installation
 #### Gource
@@ -26,6 +27,11 @@ brew install gource
 #### Scapy
 ```
 pip install scapy
+```
+#### libdnet
+```
+git clone https://github.com/dugsong/libdnet.git
+./configure && make && make install
 ```
 
 ## Sample Commands
