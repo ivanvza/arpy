@@ -30,8 +30,9 @@ pip install scapy
 ```
 #### libdnet
 ```
-git clone https://github.com/dugsong/libdnet.git
-./configure && make && make install
+$ git clone https://github.com/dugsong/libdnet.git
+$ cd libnet
+$ ./configure && make && make install
 ```
 
 ## Sample Commands
