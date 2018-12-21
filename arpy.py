@@ -25,6 +25,7 @@
 import scapy.all as scapy
 from random import randint
 import threading, os, sys, optparse, time
+import atexit
 
 options = optparse.OptionParser(usage='%prog -t <Target IP> -g <Gateway IP> -i <Interface>', description='ARP MiTM Tool')
 options.add_option('-t', '--target', type='string', dest='target', help='The Target IP')
@@ -87,7 +88,16 @@ def setup_ipv_forwarding():
     if not dns_sniff_gource:
         print(bcolours.OKBLUE + '[Info] Enabling IP Forwarding...' + bcolours.ENDC)
     os.system('sysctl -w net.inet.ip.forwarding=1 > /dev/null')
-    os.system('sudo sysctl -w net.inet.ip.fw.enable=1 > /dev/null ')
+    os.system('sudo sysctl -w net.inet.ip.forwarding=1 > /dev/null ')
+
+def exit_handler():
+    if not dns_sniff_gource:
+        print(bcolours.OKBLUE + '[Info] Disabling IP Forwarding...' + bcolours.ENDC)
+    os.system('sysctl -w net.inet.ip.forwarding=0 > /dev/null')
+    os.system('sudo sysctl -w net.inet.ip.forwarding=0 > /dev/null ')
+    print(bcolours.OKBLUE + '[Info] Application Ended Gracefully.' + bcolours.ENDC)
+
+atexit.register(exit_handler)
 
 def filter_parser():
     if opts.tcp and opts.udp:
@@ -117,8 +127,8 @@ def dnshandle(pkt):
         domain = FQDN.split('.')
         print str(time.time())[:-3] + "|" + target + "|A|" + str(domain[1]) + '/' + str(FQDN)
     else:
-        if pkt.haslayer(scapy.DNS) and pkt.getlayer(scapy.DNS).qr == 0:
-            print(bcolours.OKBLUE + 'Target: ' + pkt.getlayer(scapy.IP).src + ' -> (' + pkt.getlayer(scapy.IP).dst + '/DNS server) has searched for: ' + bcolours.WARNING + pkt.getlayer(scapy.DNS).qd.qname + bcolours.ENDC)
+        if pkt.haslayer(scapy.DNS):
+            print(bcolours.OKBLUE + pkt.getlayer(scapy.IP).src + '\t' + pkt.getlayer(scapy.IP).dst + '\t' + bcolours.WARNING + pkt.getlayer(scapy.DNS).qd.qname + bcolours.ENDC)
 
 def rawhandle(pkt):
     if sniff_pkts:
@@ -195,6 +205,7 @@ def main():
         if dns_sniff_gource or dns_sniff or sniff_pkts:
             setup_ipv_forwarding()
             print (bcolours.OKBLUE + '[Info] Filter: ' + filter_parser() + bcolours.ENDC)
+            print ("Target\tDNS\tFQDN")
             while True:
                 start_poisen(target, interface, filter_parser())
         else:
